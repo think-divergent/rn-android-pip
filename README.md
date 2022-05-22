@@ -14,6 +14,22 @@ android:supportsPictureInPicture="true"
 android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|smallestScreenSize|orientation"`
 
 
+Add this import to the activity
+
+```java
+...
+import com.reactpiplibrary.RNAndroidPipModule;
+
+
+public class MainActivity extends ReactActivity {
+
+...
+  @Override
+  public void onPictureInPictureModeChanged (boolean isInPictureInPictureMode, Configuration newConfig) {
+    RNAndroidPipModule.onPipModeChange(isInPictureInPictureMode);
+  }
+```
+
 ```
 # RN >= 0.60
 No action needed

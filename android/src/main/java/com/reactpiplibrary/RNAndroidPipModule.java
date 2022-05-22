@@ -17,6 +17,8 @@ import android.content.Context;
 import android.os.Process;
 
 import com.facebook.react.bridge.Promise;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
+
 
 public class RNAndroidPipModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
@@ -27,6 +29,12 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
     private boolean isCustomAspectRatioSupported = false;
     private boolean isPipListenerEnabled = false;
     private Rational aspectRatio;
+    private static DeviceEventManagerModule.RCTDeviceEventEmitter eventEmitter = null;
+
+
+    public static void onPipModeChange(Boolean isPip) {
+        eventEmitter.emit("PIP_MODE_CHANGE", isPip);
+    }
 
     public RNAndroidPipModule(ReactApplicationContext reactContext) {
         super(reactContext);
@@ -44,6 +52,15 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
     @Override
     public String getName() {
         return "RNAndroidPip";
+    }
+
+    @Override
+    public void initialize() {
+        super.initialize();
+
+        eventEmitter = getReactApplicationContext().getJSModule(
+            DeviceEventManagerModule.RCTDeviceEventEmitter.class
+        );
     }
 
     @ReactMethod
@@ -66,7 +83,7 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
             }
         }
     }
-    
+
     @ReactMethod
     public void hasSpecialPipPermission(final Promise promise) {
         AppOpsManager manager = (AppOpsManager) reactContext.getSystemService(Context.APP_OPS_SERVICE);
