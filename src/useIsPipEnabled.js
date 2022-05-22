@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Platform, NativeEventEmitter } from 'react-native';
+import { Platform, NativeEventEmitter, NativeModules } from 'react-native';
 
 import AndroidPip from './AndroidPip';
 
