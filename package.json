@@ -1,12 +1,12 @@
 {
   "name": "react-native-android-pip",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/shaun-chiang/rn-android-pip"
   },
   "description": "React Native Android Pip Module",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
