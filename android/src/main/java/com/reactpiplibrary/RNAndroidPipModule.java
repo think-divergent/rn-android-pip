@@ -65,22 +65,27 @@ public class RNAndroidPipModule extends ReactContextBaseJavaModule implements Li
 
     @ReactMethod
     public void enterPictureInPictureMode() {
-        if (isPipSupported) {
-            AppOpsManager manager = (AppOpsManager) reactContext.getSystemService(Context.APP_OPS_SERVICE);
-            if (manager != null) {
-                int modeAllowed = manager.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, Process.myUid(),
-                    reactContext.getPackageName());
+        try{
+            if (isPipSupported) {
+                AppOpsManager manager = (AppOpsManager) reactContext.getSystemService(Context.APP_OPS_SERVICE);
+                if (manager != null) {
+                    int modeAllowed = manager.checkOpNoThrow(AppOpsManager.OPSTR_PICTURE_IN_PICTURE, Process.myUid(),
+                            reactContext.getPackageName());
 
-                if (modeAllowed == AppOpsManager.MODE_ALLOWED) {
-                    if (isCustomAspectRatioSupported) {
-                        PictureInPictureParams params = new PictureInPictureParams.Builder()
-                                .setAspectRatio(this.aspectRatio).build();
-                        getCurrentActivity().enterPictureInPictureMode(params);
-                    } else {
-                        getCurrentActivity().enterPictureInPictureMode();
+                    if (modeAllowed == AppOpsManager.MODE_ALLOWED) {
+                        if (isCustomAspectRatioSupported) {
+                            PictureInPictureParams params = new PictureInPictureParams.Builder()
+                                    .setAspectRatio(this.aspectRatio).build();
+                            getCurrentActivity().enterPictureInPictureMode(params);
+                        } else {
+                            getCurrentActivity().enterPictureInPictureMode();
+                        }
                     }
                 }
             }
+        } catch (Exception e){
+            // ignore exceptions if we can't enter pip
+            // the app should not crash here
         }
     }
 
